@@ -54,12 +54,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="date_birtn" class="col-md-4 col-form-label text-md-right">{{ __('Date of birth') }}</label>
+                            <label for="date_birth" class="col-md-4 col-form-label text-md-right">{{ __('Date of birth') }}</label>
 
                             <div class="col-md-6">
-                                <input id="date_birtn" type="date" class="form-control @error('date_birtn') is-invalid @enderror" name="date_birtn" value="{{ old('date_birtn') }}" required autocomplete="date_birtn">
+                                <input id="date_birth" type="date" class="form-control @error('date_birth') is-invalid @enderror" name="date_birth" value="{{ old('date_birth') }}" required autocomplete="date_birth">
 
-                                @error('date_birtn')
+                                @error('date_birth')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

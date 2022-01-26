@@ -15,10 +15,11 @@ class CreateTypesOfPlaceTable extends Migration
     {
         Schema::create('typesOfPlace', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('icon_id');
-            $table->foreign('icon_id')->references('id')->on('icons');
+            $table->string('name')->unique();
+            $table->unsignedBigInteger('icon_id')->unique();
             $table->timestamps();
+
+            $table->foreign('icon_id')->references('id')->on('icons');
         });
     }
 

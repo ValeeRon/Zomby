@@ -15,7 +15,7 @@ class CreateIsSafeTable extends Migration
     {
         Schema::create('isSafe', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }

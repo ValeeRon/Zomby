@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -62,16 +64,18 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return User|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
-        return User::create([
+        $User = User::create([
             'first_name' => $data['first_name'],
             'second_name' => $data['second_name'],
             'email' => $data['email'],
             'date_birth' => $data['date_birth'],
             'password' => Hash::make($data['password']),
         ]);
+        Auth::login($User);
+        return redirect('/home');
     }
 }
