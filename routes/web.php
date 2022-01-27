@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Icon;
+use App\TypeOfPlace;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +20,15 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::group(['prefix' => 'api'], function() {
+    Route::resource('/typeOfPlace', 'TypeOfPlaceController', ['except' => ['create', 'show', 'edit']]);
+    Route::resource('/vitalFacilities', 'VitalFacilitiesController', ['except' => ['create', 'show', 'edit']]);
+});
+
+Route::get('/iconIndex', 'IconController@index')->withoutMiddleware('auth');
+
+Route::post('register', 'Auth\RegisterController@create');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('register', 'Auth\RegisterController@create');
 Route::get('/map', 'MapController@index')->name('map');
+

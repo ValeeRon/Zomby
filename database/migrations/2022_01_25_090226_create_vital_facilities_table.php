@@ -19,13 +19,10 @@ class CreateVitalFacilitiesTable extends Migration
             $table->unsignedBigInteger('type_of_place_id');
             $table->date('date_added');
             $table->point('location')->unique();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('is_safe_id');
+            $table->unsignedBigInteger('is_safe');
             $table->timestamps();
 
-            $table->foreign('type_of_place_id')->references('id')->on('typesOfPlace');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('is_safe_id')->references('id')->on('isSafe');
+            $table->foreign('type_of_place_id')->references('id')->on('typeOfPlace');
         });
     }
 

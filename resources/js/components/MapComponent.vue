@@ -7,13 +7,13 @@
             v-bind:attributionControl="false"
             @load="onMapLoaded">
         <MglNavigationControl position="top-right" />
-        <MglGeolocateControl position="top-right" >
-        </MglGeolocateControl>
+        <MglGeolocateControl position="top-right" />
+            <MglFullscreenControl position="top-right" >
+        </MglFullscreenControl>
         <MglScaleControl />
        <MglMarker v-for="location in locations" :coordinates="location.coordinates">
-
-            <v-icon v-if="location.type == 'food'" slot="marker"><img src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/000000/external-fast-food-food-delivery-wanicon-lineal-color-wanicon.png"/></v-icon>
-            <v-icon v-if="location.type == 'health'" slot="marker"><img src="https://img.icons8.com/color/48/000000/antibiotic.png"/></v-icon>
+            <v-icon v-if="location.type == 'food'" slot="marker"><img src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/40/000000/external-fast-food-food-delivery-wanicon-lineal-color-wanicon.png"/></v-icon>
+            <v-icon v-if="location.type == 'health'" slot="marker"><img src="https://img.icons8.com/office/40/000000/sheriff.png"/></v-icon>
             <v-icon v-if="location.type == 'marker'" slot="marker"><img src="https://img.icons8.com/office/40/000000/marker.png"/></v-icon>
         </MglMarker>
     </MglMap>
@@ -41,10 +41,20 @@ export default {
         MglScaleControl,
         MglMarker
     },
+    mounted() {
+        this.markers = this.markers;
+        this.typesOfPlaces = this.typesOfPlaces;
+        this.vitalFacilities = this.vitalFacilities;
+        this.loadTypesOfPlaces();
+        this.loadVitalFacilities();
+    },
     data() {
         return {
             access_token: "pk.eyJ1IjoidW5kZWFkMXNwYXJyb3ciLCJhIjoiY2t5dmFkamNwMGozZDJ3b3h5cnZ0cjhhMyJ9.hehib1Ux-usP7t3nrzWtdw", // your access token. Needed if you using Mapbox maps
             map_style: "mapbox://styles/undead1sparrow/ckyvby31u003014k9zauruah8", // your map style
+            markers: this.markers,
+            typesOfPlaces: this.typesOfPlaces,
+            vitalFacilities: this.vitalFacilities,
             locations: [
                 {
                     coordinates: [295.549668, 47.814],
@@ -81,7 +91,24 @@ export default {
             // or just to store if you want have access from other components
             this.$store.map = event.map;
         },
-
+        loadTypesOfPlaces(){
+            let self = this;
+            axios.get(
+                'api/typeOfPlace'
+            ).then(function (response){
+                self.typesOfPlaces = response.data
+                console.log(self.typesOfPlaces)
+            })
+        },
+        loadVitalFacilities(){
+            let self = this;
+            axios.get(
+                'api/vitalFacilities'
+            ).then(function (response){
+                self.vitalFacilities = response.data
+                console.log(self.typesOfPlaces)
+            })
+        }
     }
 };
 </script>
