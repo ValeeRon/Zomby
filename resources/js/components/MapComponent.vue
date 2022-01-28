@@ -12,7 +12,7 @@
         </MglFullscreenControl>
         <MglScaleControl/>
         <MglMarker v-for="location in vitalFacilities" :coordinates="[location.location_x, location.location_y]">
-            <v-icon><img src="typesOfPlaces[location.type_of_place].path_to_icon"/></v-icon>
+            <v-icon v-if="location.type_of_place_id == 1" slot="marker"><img src="https://img.icons8.com/office/40/000000/hospital.png"/></v-icon>
         </MglMarker>
     </MglMap>
 
