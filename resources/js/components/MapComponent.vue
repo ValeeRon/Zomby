@@ -6,15 +6,13 @@
             v-bind:showCompass="true"
             v-bind:attributionControl="false"
             @load="onMapLoaded">
-        <MglNavigationControl position="top-right" />
-        <MglGeolocateControl position="top-right" />
-            <MglFullscreenControl position="top-right" >
+        <MglNavigationControl position="top-right"/>
+        <MglGeolocateControl position="top-right"/>
+        <MglFullscreenControl position="top-right">
         </MglFullscreenControl>
-        <MglScaleControl />
-       <MglMarker v-for="location in locations" :coordinates="location.coordinates">
-            <v-icon v-if="location.type == 'food'" slot="marker"><img src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/40/000000/external-fast-food-food-delivery-wanicon-lineal-color-wanicon.png"/></v-icon>
-            <v-icon v-if="location.type == 'health'" slot="marker"><img src="https://img.icons8.com/office/40/000000/sheriff.png"/></v-icon>
-            <v-icon v-if="location.type == 'marker'" slot="marker"><img src="https://img.icons8.com/office/40/000000/marker.png"/></v-icon>
+        <MglScaleControl/>
+        <MglMarker v-for="location in vitalFacilities" :coordinates="[location.location_x, location.location_y]">
+            <v-icon><img src="typesOfPlaces[location.type_of_place].path_to_icon"/></v-icon>
         </MglMarker>
     </MglMap>
 
@@ -47,6 +45,7 @@ export default {
         this.vitalFacilities = this.vitalFacilities;
         this.loadTypesOfPlaces();
         this.loadVitalFacilities();
+        //this.createMarkers();
     },
     data() {
         return {
@@ -91,23 +90,33 @@ export default {
             // or just to store if you want have access from other components
             this.$store.map = event.map;
         },
-        loadTypesOfPlaces(){
+        loadTypesOfPlaces() {
             let self = this;
             axios.get(
                 'api/typeOfPlace'
-            ).then(function (response){
+            ).then(function (response) {
                 self.typesOfPlaces = response.data
-                console.log(self.typesOfPlaces)
+                //console.log(self.typesOfPlaces)
             })
         },
-        loadVitalFacilities(){
+        loadVitalFacilities() {
             let self = this;
             axios.get(
-                'api/vitalFacilities'
-            ).then(function (response){
+                'api/vitalFacility'
+            ).then(function (response) {
                 self.vitalFacilities = response.data
-                console.log(self.typesOfPlaces)
+                //console.log(self.vitalFacilities)
             })
+        },
+        createMarkers() {
+            let self = this
+            for (var i = 0; i < self.vitalFacilities.length; i++) {
+                self.markers.push({
+                    coordinates: [self.vitalFacilities[i].location_x, self.vitalFacilities[i].location_y],
+                    type: self.vitalFacilities[i].type_of_place_id
+                });
+                //console.log(i)
+            }
         }
     }
 };

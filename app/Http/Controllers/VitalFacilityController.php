@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\VitalFacilities;
-use App\Repositories\VitalFacilitiesRepository;
+use App\VitalFacility;
+use App\Repositories\VitalFacilityRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class VitalFacilitiesController extends Controller
+class VitalFacilityController extends Controller
 {
-    private $vitalFacilitiesRepository;
+    private $vitalFacilityRepository;
 
-    public function __construct(VitalFacilitiesRepository $vitalFacilitiesRepository)
+    public function __construct(VitalFacilityRepository $vitalFacilityRepository)
     {
-        $this->vitalFacilitiesRepository = $vitalFacilitiesRepository;
+        $this->vitalFacilityRepository = $vitalFacilityRepository;
     }
 
     /**
@@ -25,10 +25,8 @@ class VitalFacilitiesController extends Controller
      */
     public function index(Request $request)
     {
-        $allVitalFacilities = $this->vitalFacilitiesRepository->all();
-        foreach ($allVitalFacilities as $vitalFacility) {
-            $vitalFacility['type_of_place'] = $vitalFacility->getTypeOfPlaceName();
-        }
+        $allVitalFacility = $this->vitalFacilityRepository->all();
+        return response()->json($allVitalFacility);
     }
 
     /**
@@ -43,7 +41,8 @@ class VitalFacilitiesController extends Controller
             'name' => $request->name,
             'type_of_place_id' => $request->type_of_place_id,
             'date_added' => $request->date_added,
-            'location' => $request->location,
+            'location_x' => $request->location_x,
+            'location_y' => $request->location_y,
             'is_safe' => $request->is_safe
         ]);
     }
@@ -57,11 +56,12 @@ class VitalFacilitiesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $facility = VitalFacilities::findOrFail($id);
+        $facility = VitalFacility::findOrFail($id);
         $facility->name = $request->name;
         $facility->type_of_place_id = $request->type_of_place_id;
         $facility->date_added = $request->date_added;
-        $facility->location = $request->location;
+        $facility->location_x = $request->location_x;
+        $facility->location_y = $request->location_y;
         $facility->is_safe = $request->is_safe;
         $facility->save();
         return response(null, Response::HTTP_OK);
@@ -75,6 +75,6 @@ class VitalFacilitiesController extends Controller
      */
     public function destroy($id)
     {
-        $this->vitalFacilitiesRepository->delete($id);
+        $this->vitalFacilityRepository->delete($id);
     }
 }

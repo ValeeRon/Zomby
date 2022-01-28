@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Icon;
 use App\TypeOfPlace;
+use App\VitalFacility;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,10 +23,11 @@ Route::get('/', function () {
 Auth::routes();
 Route::group(['prefix' => 'api'], function() {
     Route::resource('/typeOfPlace', 'TypeOfPlaceController', ['except' => ['create', 'show', 'edit']]);
-    Route::resource('/vitalFacilities', 'VitalFacilitiesController', ['except' => ['create', 'show', 'edit']]);
+    Route::resource('/vitalFacility', 'VitalFacilityController', ['except' => ['create', 'show', 'edit']]);
 });
 
-Route::get('/iconIndex', 'IconController@index')->withoutMiddleware('auth');
+Route::get('/typeOfPlaceIndex', 'TypeOfPlaceController@index')->withoutMiddleware('auth');
+Route::get('/vitalFacilityIndex', 'VitalFacilityController@index')->withoutMiddleware('auth');
 
 Route::post('register', 'Auth\RegisterController@create');
 
