@@ -16,4 +16,12 @@ class VitalFacility extends Model
     ];
 
     protected $table = 'vitalFacility';
+
+    public function typeOfPlace(){
+        return $this->hasOne('App\TypeOfPlace', 'id', 'type_of_place_id');
+    }
+
+    public function getPathToIcon(){
+        return $this->typeOfPlace->path_to_icon;
+    }
 }

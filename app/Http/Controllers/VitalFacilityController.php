@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\TypeOfPlace;
 use App\VitalFacility;
 use App\Repositories\VitalFacilityRepository;
 use Illuminate\Http\JsonResponse;
@@ -26,6 +27,9 @@ class VitalFacilityController extends Controller
     public function index(Request $request)
     {
         $allVitalFacility = $this->vitalFacilityRepository->all();
+        foreach ($allVitalFacility as $vitalFacility) {
+            $vitalFacility['path_to_icon'] = $vitalFacility->getPathToIcon();
+        }
         return response()->json($allVitalFacility);
     }
 
@@ -37,7 +41,7 @@ class VitalFacilityController extends Controller
      */
     public function store(Request $request)
     {
-        TypeOfPlace::create([
+        VitalFacility::create([
             'name' => $request->name,
             'type_of_place_id' => $request->type_of_place_id,
             'date_added' => $request->date_added,
@@ -54,7 +58,7 @@ class VitalFacilityController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $facility = VitalFacility::findOrFail($id);
         $facility->name = $request->name;
@@ -64,7 +68,6 @@ class VitalFacilityController extends Controller
         $facility->location_y = $request->location_y;
         $facility->is_safe = $request->is_safe;
         $facility->save();
-        return response(null, Response::HTTP_OK);
     }
 
     /**
