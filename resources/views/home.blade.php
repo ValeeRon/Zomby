@@ -14,7 +14,13 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('Вы залогинены!') }}
+                    <div>
+                        <a href="{{ url('/') }}">Домашняя страница</a>
+                    </div>
+                    <div>
+                        <a href="{{ url('map') }}">Карта</a>
+                    </div>
                 </div>
             </div>
         </div>
