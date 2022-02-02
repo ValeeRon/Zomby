@@ -32,5 +32,5 @@ Route::get('/vitalFacilityIndex', 'VitalFacilityController@index')->withoutMiddl
 Route::post('register', 'Auth\RegisterController@create');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/map', 'MapController@index')->name('map');
+Route::get('/map', 'MapController@index')->name('map')->middleware('auth');
 
